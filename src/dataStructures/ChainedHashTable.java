@@ -9,7 +9,7 @@ package dataStructures;
  */
 
 public class ChainedHashTable<K extends Comparable<K>, V> 
-    extends dataStructures.HashTable<K,V>
+    extends HashTable<K,V>
 { 
 	/**
 	 * Serial Version UID of the Class.
@@ -19,7 +19,7 @@ public class ChainedHashTable<K extends Comparable<K>, V>
 	/**
 	 * The array of dictionaries.
 	 */
-    protected dataStructures.Dictionary<K,V>[] table;
+    protected Dictionary<K,V>[] table;
 
 
     /**
@@ -32,13 +32,12 @@ public class ChainedHashTable<K extends Comparable<K>, V>
     @SuppressWarnings("unchecked")
     public ChainedHashTable( int capacity )
     {
-        int arraySize = dataStructures.HashTable.nextPrime((int) (1.1 * capacity));
+        int arraySize = nextPrime((int) (1.1 * capacity));
         // Compiler gives a warning.
-        table = (dataStructures.Dictionary<K,V>[]) new dataStructures.Dictionary[arraySize];
+        table = (Dictionary<K,V>[]) new Dictionary[arraySize];
         for ( int i = 0; i < arraySize; i++ )
-            //TODO: Original comentado para nao dar erro de compilacao.
-            // table[i] = new OrderedDoubleList<K,V>();
-            table[i] = null;
+            table[i] = new OrderedDoubleList<>();
+
         maxSize = capacity;
         currentSize = 0;
     }                                      
@@ -66,61 +65,44 @@ public class ChainedHashTable<K extends Comparable<K>, V>
     }
 
     @Override
-    public V insert( K key, V value )
-    {
+    public V insert( K key, V value ) {
         if ( this.isFull() )
-            //TODO: left as an exercise.
-        	//Original commented, to compile.
-            // this.rehash();
-            return null;
+             this.rehash();
+        return table[hash(key)].insert(key,value);
+    }
 
-        //TODO: Left as an exercise.
+    @SuppressWarnings("unchecked")
+    private void rehash() {
+        maxSize += maxSize;
+        int arraySize = nextPrime((int) (1.1 * maxSize));
+        Dictionary<K,V>[] newTable = (Dictionary<K,V>[]) new Dictionary[arraySize];
+        for ( int i = 0; i < arraySize; i++ )
+            newTable[i] = new OrderedDoubleList<>();
+        Iterator<Entry<K,V>> iterator = iterator();
+        table = newTable;
+        while(iterator.hasNext()) {
+            Entry<K,V> entry = iterator.next();
+            table[hash(entry.getKey())].insert(entry.getKey(),entry.getValue());
+        }
+    }
+
+    @Override
+    public V remove( K key ) {
+        Dictionary<K,V> dictionary = table[hash(key)];
+        if(!dictionary.isEmpty())
+            return dictionary.remove(key);
         return null;
     }
 
     @Override
-    public V remove( K key )
-    {
-        //TODO: Left as an exercise.
-        return null;
-    }
+    public Iterator<Entry<K,V>> iterator( ) {
+        for(int i = 0; i< table.length; i++){
+            Dictionary<K,V> dictionary = table[i];
+            if(!dictionary.isEmpty()){
+                Iterator<Entry<K,V>> iterator = dictionary.iterator();
+            }
+        }
 
-    @Override
-    public Iterator<dataStructures.Entry<K,V>> iterator( )
-    {
-        //TODO: Left as an exercise.
         return null;
     } 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
