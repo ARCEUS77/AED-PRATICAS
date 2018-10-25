@@ -71,6 +71,29 @@ public class ChainedHashTable<K extends Comparable<K>, V>
         return table[hash(key)].insert(key,value);
     }
 
+    @Override
+    public V remove( K key ) {
+        Dictionary<K,V> dictionary = table[hash(key)];
+        if(!dictionary.isEmpty())
+            return dictionary.remove(key);
+        return null;
+    }
+
+    @Override
+    public Iterator<Entry<K,V>> iterator( ) {
+        for(int i = 0; i< table.length; i++){
+            Dictionary<K,V> dictionary = table[i];
+            if(!dictionary.isEmpty()){
+                Iterator<Entry<K,V>> entryIterator = dictionary.iterator();
+                //while(entryIterator.hasNext())
+                    return null;
+            }
+        }
+        return null;
+    }
+
+
+
     @SuppressWarnings("unchecked")
     private void rehash() {
         maxSize += maxSize;
@@ -85,24 +108,4 @@ public class ChainedHashTable<K extends Comparable<K>, V>
             table[hash(entry.getKey())].insert(entry.getKey(),entry.getValue());
         }
     }
-
-    @Override
-    public V remove( K key ) {
-        Dictionary<K,V> dictionary = table[hash(key)];
-        if(!dictionary.isEmpty())
-            return dictionary.remove(key);
-        return null;
-    }
-
-    @Override
-    public Iterator<Entry<K,V>> iterator( ) {
-        for(int i = 0; i< table.length; i++){
-            Dictionary<K,V> dictionary = table[i];
-            if(!dictionary.isEmpty()){
-                Iterator<Entry<K,V>> iterator = dictionary.iterator();
-            }
-        }
-
-        return null;
-    } 
 }
