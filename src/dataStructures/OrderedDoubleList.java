@@ -99,9 +99,7 @@ public class OrderedDoubleList<K extends Comparable<K>,V> implements OrderedDict
     @Override
     public V remove(K key) {
         DListNode<Entry<K,V>> node = findNode(key);
-        if(node == null)
-            return null;
-        if(!node.getElement().getKey().equals(key))
+        if(node == null || !node.getElement().getKey().equals(key))
             return null;
 
         DListNode<Entry<K,V>> previousNode = node.getPrevious();
@@ -123,7 +121,7 @@ public class OrderedDoubleList<K extends Comparable<K>,V> implements OrderedDict
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
-        return null;
+        return new DoublyLLIterator<>(head, tail);
     }
 
     private void addFirst(Entry<K, V> entry) {
