@@ -8,7 +8,7 @@ package dataStructures;
  * @param <V> Generic Value 
  */
 
-public abstract class HashTable<K,V> implements dataStructures.Dictionary<K,V>
+public abstract class HashTable<K,V> implements Dictionary<K,V>
 { 
 	/**
 	 * Serial Version UID of the Class.
