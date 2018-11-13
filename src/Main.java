@@ -1,3 +1,8 @@
+import dataStructures.BinarySearchTree;
+import dataStructures.Entry;
+import dataStructures.Iterator;
+import dataStructures.OrderedDictionary;
+
 import java.util.Scanner;
 
 public class Main {
@@ -27,10 +32,28 @@ public class Main {
         System.out.println("The max number in the array is " + vecMax(array));
         */
 
+        /*
         int base = in.nextInt();
         int times = in.nextInt();
         in.nextLine();
-        System.out.println(multiPRecursive(base,times));
+        System.out.println(multiPRecursive(base,times));*/
+        OrderedDictionary<Integer,Integer> tree = new BinarySearchTree<>();
+        tree.insert(50,50);
+        tree.insert(3,3);
+        tree.insert(4,4);
+        tree.insert(1,1);
+        tree.insert(20,20);
+        tree.insert(90,90);
+        tree.insert(100,100);
+        tree.insert(80,80);
+        tree.insert(56,56);
+        tree.insert(101,101);
+
+        Iterator<Entry<Integer,Integer>> iterator = tree.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next().getKey());
+        }
+
         in.close();
     }
 
